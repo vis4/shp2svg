@@ -1,7 +1,7 @@
 shp2svg - Easy conversion from ESRI shapefiles to SVG
 ====
 
-written by Gregor Aisch
+Written by Gregor Aisch
 
 MIT license
 
@@ -10,8 +10,8 @@ Requirements
  - Python 2.7
  - Python modules: 
 	- shapefile http://code.google.com/p/shapefile/
-	- pyproj
-	- svgfig
+	- pyproj http://code.google.com/p/pyproj/
+	- svgfig http://code.google.com/p/svgfig/
 	
 Analyzing
 --------
@@ -71,3 +71,6 @@ ToDos
 ----------
 - map projection
 - svg output :)
+- shape filter based on metadata queries
+- geometry simplification
+
