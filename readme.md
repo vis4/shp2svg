@@ -13,7 +13,7 @@ Requirements
 	- pyproj
 	- svgfig
 	
-Examples
+Analyzing
 --------
 Analyzing a shapefile
 
@@ -49,3 +49,25 @@ Will output
 	   18:  46.97, 72.37, 70.54, 75.75, 83.49, ...
 	   19:  47.67, 69.53, 69.14, 71.35, 80.58, ...
 	   20:  46.23, 75.42, 72.01, 80.41, 86.58, ...
+
+You now can select the metadata you want to keep in SVG output by setting the -k option
+
+	python shp2svg -a countries.shp -k name,iso2,iso3
+	
+Output:
+
+	analyzing shapefile WorldCountries
+	
+	Geometry:
+	   253 	Records (total)
+	   253 	Polygons
+	
+	Metadata:
+	   name:  Afghanistan, Albania, Algeria, American Samoa, Andorra, ...
+	   iso2:  AF, AL, DZ, AS, AD, ...
+	   iso3:  AFG, ALB, DZA, ASM, AND, ...
+
+ToDos
+----------
+- map projection
+- svg output :)

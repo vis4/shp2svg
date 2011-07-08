@@ -89,7 +89,7 @@ def anaylze(shp_url):
 	
 	global meta_keys
 	for i in range(len(metaData)):
-		if len(meta_keys) == 100 or meta_keys[i] != '':
+		if len(meta_keys) == 100 or (len(meta_keys) > i and meta_keys[i] != ''):
 			print '  ',str(meta_keys[i])+": ",", ".join(metaData[i])+", ..."
 		
 
