@@ -10,21 +10,32 @@
 #
 #
 
-import sys, getopt
+import sys, getopt, os.path
 
 encoding = 'utf-8'
 meta_keys = range(100)
 output = 'out.svg'
-projection = ''
+proj4str = ''
 
 def main():
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], "a:e:k:o:")
+		opts, args = getopt.getopt(sys.argv[1:], "ace:k:o:p:u")
 	except getopt.GetoptError, err:
 		# print help information and exit:
 		print opts
 		print str(err) # will print something like "option -a not recognized"
 		usage()
+		sys.exit(2)
+	
+	if len(args) != 1:
+		usage()
+		sys.exit(2)
+	
+	shpFile = args[0]
+	
+	if not os.path.exists(shpFile) and not os.path.exists(shpFile+".shp"):
+		print shpFile,"does not exist"
+		# usage()
 		sys.exit(2)
 	
 	verbose = False
@@ -34,8 +45,8 @@ def main():
 			global output
 			output = a
 		if o == "-p":
-			global output
-			output = a
+			global proj4str
+			proj4str = a
 		if o == "-e": 
 			global encoding
 			encoding = a
@@ -45,20 +56,24 @@ def main():
 	
 	for o, a in opts:
 		if o == "-a": 
-			anaylze(a) 
+			anaylze(shpFile) 
 			return
-			
+		if o == "-c":
+			convert(shpFile)
 	usage()
 	# ...
 
 
 
 def usage():
-	print "Usage:\n\nshp2svg -a <shpfile>     Analyzes a shapefile\n"
+	print "usage: shp2svg [-acekop] [shpfile]     \n"
 	print "Options:"
-	print "\t-e <encoding>\tSpecify a charset to decode the metadata (default is utf-8)"
-	print "\t-k <keys>\tComma-separated list of keys to use for metadata"
-	print "\t-o <svgfile>\tFilename to write SVG (default is out.svg)"
+	print "   -a             Analyses the content of the shapefile"
+	print "   -c             Converts the shapefile to SVG"
+	print "   -e [encoding]  Specify a charset to decode the metadata (default is utf-8)"
+	print "   -k [keys]      Comma-separated list of keys to use as metadata in SVG"
+	print "   -o [svgfile]   Filename to write SVG (default is out.svg)"
+	print "   -p [proj]      Proj.4 projection to use"
 	
 	print "\nExamples:"
 	print "shp2svg -k ,ags,name,,area"
@@ -93,6 +108,9 @@ def anaylze(shp_url):
 			print '  ',str(meta_keys[i])+": ",", ".join(metaData[i])+", ..."
 		
 
+def convert(shp_url):
+	return
+
 
 shapeTypeNames = ['']*10
 shapeTypeNames[0] = 'Null shape'
@@ -115,18 +133,7 @@ import shapefile, Polygon, Polygon.IO, Polygon.Utils
 from svgfig import *
 from pyproj import Proj
 
-if len(sys.argv) < 2:
-	print "Error: Incorrect number of arguments\n"
-	print "Must specify a mode. Possible values are:"
-	print "   analyze <shapefile>"
-	print "   convert <shapefile> <svgfile>"
-	print
-	exit()
 
-if len(sys.argv) < 4:
-	print "Incorrect number of arguments\n"
-	print "Usage:\npython shp2svg <shapefile> <svgfile>\n"
-	exit()
 	
 shp_url = sys.argv[1]
 svg_url = sys.argv[2]
